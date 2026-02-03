@@ -178,3 +178,9 @@ h1 {
     width: 100%;
   }
 }
+
+.space {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
