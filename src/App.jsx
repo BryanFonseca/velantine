@@ -1,32 +1,64 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import './App.css'
 
 const confettiColors = ['#ff4d6d', '#ff8fab', '#ffd6e0', '#fff1f5', '#ff7aa2']
 
+const getRandomPosition = (pageRect, buttonRect) => {
+  const padding = 16
+  const availableX = Math.max(0, pageRect.width - buttonRect.width - padding * 2)
+  const availableY = Math.max(0, pageRect.height - buttonRect.height - padding * 2)
+
+  return {
+    x: padding + Math.floor(Math.random() * (availableX + 1)),
+    y: padding + Math.floor(Math.random() * (availableY + 1)),
+  }
+}
+
 function App() {
   const pageRef = useRef(null)
-  const noButtonRef = useRef(null)
+  const staticNoRef = useRef(null)
   const [noPosition, setNoPosition] = useState(null)
+  const [isFloating, setIsFloating] = useState(false)
+  const [pendingTarget, setPendingTarget] = useState(null)
   const [accepted, setAccepted] = useState(false)
 
-  const moveNoButton = () => {
+  useEffect(() => {
+    if (!isFloating || !pendingTarget) return
+
+    const frame = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setNoPosition(pendingTarget)
+        setPendingTarget(null)
+      })
+    })
+
+    return () => cancelAnimationFrame(frame)
+  }, [isFloating, pendingTarget])
+
+  const handleNoAttempt = () => {
+    if (accepted) return
+
     const page = pageRef.current
-    const button = noButtonRef.current
+    const button = staticNoRef.current
 
     if (!page || !button) return
 
     const pageRect = page.getBoundingClientRect()
     const buttonRect = button.getBoundingClientRect()
-    const padding = 16
+    const origin = {
+      x: buttonRect.left - pageRect.left,
+      y: buttonRect.top - pageRect.top,
+    }
 
-    const maxX = Math.max(padding, pageRect.width - buttonRect.width - padding)
-    const maxY = Math.max(padding, pageRect.height - buttonRect.height - padding)
+    if (!isFloating) {
+      setIsFloating(true)
+      setNoPosition(origin)
+      setPendingTarget(getRandomPosition(pageRect, buttonRect))
+      return
+    }
 
-    const nextX = Math.floor(Math.random() * maxX)
-    const nextY = Math.floor(Math.random() * maxY)
-
-    setNoPosition({ x: nextX, y: nextY })
+    setNoPosition(getRandomPosition(pageRect, buttonRect))
   }
 
   const fireConfetti = () => {
@@ -59,8 +91,6 @@ function App() {
     fireConfetti()
   }
 
-  const showFloatingNo = Boolean(noPosition) && !accepted
-
   return (
     <div className="page" ref={pageRef}>
       <div className="glow" />
@@ -76,16 +106,14 @@ function App() {
             <button className="btn yes" onClick={handleYesClick}>
               Yes
             </button>
-            {!showFloatingNo && (
-              <button
-                ref={noButtonRef}
-                className="btn no"
-                onMouseEnter={moveNoButton}
-                onClick={moveNoButton}
-              >
-                No
-              </button>
-            )}
+            <button
+              ref={staticNoRef}
+              className={`btn no ${isFloating ? 'is-hidden' : ''}`}
+              onMouseEnter={handleNoAttempt}
+              onClick={handleNoAttempt}
+            >
+              No
+            </button>
           </div>
         )}
 
@@ -104,13 +132,12 @@ function App() {
         )}
       </main>
 
-      {showFloatingNo && (
+      {isFloating && !accepted && noPosition && (
         <button
-          ref={noButtonRef}
           className="btn no is-floating"
           style={{ left: `${noPosition.x}px`, top: `${noPosition.y}px` }}
-          onMouseEnter={moveNoButton}
-          onClick={moveNoButton}
+          onMouseEnter={handleNoAttempt}
+          onClick={handleNoAttempt}
           aria-label="No (it keeps moving!)"
         >
           No

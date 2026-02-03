@@ -123,10 +123,16 @@ h1 {
   transform: translateY(-2px);
 }
 
+.btn.no.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .btn.no.is-floating {
   position: absolute;
   z-index: 5;
-  transition: left 0.2s ease, top 0.2s ease;
+  transition: left 0.25s ease, top 0.25s ease, transform 0.15s ease;
+  will-change: left, top;
 }
 
 .celebration {
