@@ -106,10 +106,10 @@ function App() {
                         <div className="space">
                             <span className="badge">My girl</span>
                         </div>
-                        <h1>Do you want to be my Valentine?</h1>
+                        <h1>Do you want to be my VELAntine?</h1>
                         <p className="subtitle">
                             I promise sweet surprises, cozy nights, and a heart
-                            that will never stop loving you.
+                            that will never stop loving you. 🕯️
                         </p>
                         <div className="actions">
                             <button
@@ -131,16 +131,21 @@ function App() {
                 )}
 
                 {accepted && (
-                    <div className="celebration">
-                        <h2 className="love">
-                            Yay! You just made my heart do cartwheels.
-                        </h2>
-                        <div className="media-slot">
-                            <div className="media-placeholder">
-                                <img src="https://media.tenor.com/7KO34Dn7fYsAAAAM/monkey-kiss-george-monkey.gif" />
+                    <>
+                        <div className="celebration">
+                            <h2 className="love">
+                                Yay! You just made my heart do cartwheels.
+                            </h2>
+                            <div className="media-slot">
+                                <div className="media-placeholder">
+                                    <img src="https://media.tenor.com/7KO34Dn7fYsAAAAM/monkey-kiss-george-monkey.gif" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div className="cont">
+                            <span className="badge boy">- Your boy</span>
+                        </div>
+                    </>
                 )}
             </main>
 
@@ -155,7 +160,7 @@ function App() {
                     onClick={handleNoAttempt}
                     aria-label="No (it keeps moving!)"
                 >
-                    No
+                    No {noPosition && "😛"}
                 </button>
             )}
         </div>

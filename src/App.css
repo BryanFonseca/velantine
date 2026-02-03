@@ -160,7 +160,6 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 240, 245, 0.75);
   color: #b21f4a;
   font-weight: 600;
 }
@@ -183,4 +182,13 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+}
+
+.cont {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.boy {
+    margin-left: auto;
 }
