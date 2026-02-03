@@ -101,29 +101,33 @@ function App() {
         <div className="page" ref={pageRef}>
             <div className="glow" />
             <main className="card" aria-live="polite">
-                <div className="space">
-                    <span className="badge">My girl</span>
-                </div>
-                <h1>Do you want to be my Valentine?</h1>
-                <p className="subtitle">
-                    I promise sweet surprises, cozy nights, and a heart that
-                    will never stop loving you.
-                </p>
-
                 {!accepted && (
-                    <div className="actions">
-                        <button className="btn yes" onClick={handleYesClick}>
-                            Yes
-                        </button>
-                        <button
-                            ref={staticNoRef}
-                            className={`btn no ${isFloating ? "is-hidden" : ""}`}
-                            onMouseEnter={handleNoAttempt}
-                            onClick={handleNoAttempt}
-                        >
-                            No
-                        </button>
-                    </div>
+                    <>
+                        <div className="space">
+                            <span className="badge">My girl</span>
+                        </div>
+                        <h1>Do you want to be my Valentine?</h1>
+                        <p className="subtitle">
+                            I promise sweet surprises, cozy nights, and a heart
+                            that will never stop loving you.
+                        </p>
+                        <div className="actions">
+                            <button
+                                className="btn yes"
+                                onClick={handleYesClick}
+                            >
+                                Yes
+                            </button>
+                            <button
+                                ref={staticNoRef}
+                                className={`btn no ${isFloating ? "is-hidden" : ""}`}
+                                onMouseEnter={handleNoAttempt}
+                                onClick={handleNoAttempt}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </>
                 )}
 
                 {accepted && (
@@ -131,13 +135,9 @@ function App() {
                         <h2 className="love">
                             Yay! You just made my heart do cartwheels.
                         </h2>
-                        <p className="subtitle">
-                            Get ready for a day filled with love notes, roses,
-                            and all your favorite things.
-                        </p>
                         <div className="media-slot">
                             <div className="media-placeholder">
-                                <span>Your photo or video goes here</span>
+                                <img src="https://media.tenor.com/7KO34Dn7fYsAAAAM/monkey-kiss-george-monkey.gif" />
                             </div>
                         </div>
                     </div>
